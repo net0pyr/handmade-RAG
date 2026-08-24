@@ -1,0 +1,64 @@
+[
+  {"question": "сколько дней отпуска в году", "source": "vacation.md", "kind": "natural"},
+  {"question": "за сколько дней подавать заявление на отпуск", "source": "vacation.md", "kind": "natural"},
+  {"question": "переносятся ли неиспользованные дни отдыха", "source": "vacation.md", "kind": "natural"},
+  {"question": "когда придут отпускные", "source": "vacation.md", "kind": "natural"},
+  {"question": "дадут ли выходные на свадьбу", "source": "vacation.md", "kind": "natural"},
+  {"question": "28 календарных дней", "source": "vacation.md", "kind": "lexical"},
+
+  {"question": "вернут ли деньги за фитнес", "source": "gym.md", "kind": "natural"},
+  {"question": "до какого числа загружать чек за спортзал", "source": "gym.md", "kind": "natural"},
+  {"question": "оплатят ли участие в забеге", "source": "gym.md", "kind": "natural"},
+  {"question": "3000 рублей", "source": "gym.md", "kind": "lexical"},
+
+  {"question": "как получить впн", "source": "vpn.md", "kind": "natural"},
+  {"question": "нужен доступ к внутреннему гитлабу из дома", "source": "vpn.md", "kind": "natural"},
+  {"question": "подключился, но база отчётности не открывается", "source": "vpn.md", "kind": "natural"},
+  {"question": "IT-ACCESS", "source": "vpn.md", "kind": "lexical"},
+  {"question": "office-full", "source": "vpn.md", "kind": "lexical"},
+
+  {"question": "что делать если упал прод", "source": "incidents.md", "kind": "natural"},
+  {"question": "кому эскалировать если дежурный молчит", "source": "incidents.md", "kind": "natural"},
+  {"question": "сроки подготовки post-mortem", "source": "incidents.md", "kind": "natural"},
+  {"question": "как часто обновлять статус по инциденту", "source": "incidents.md", "kind": "natural"},
+  {"question": "SEV4", "source": "incidents.md", "kind": "lexical"},
+
+  {"question": "сколько длится испытательный срок", "source": "onboarding.md", "kind": "natural"},
+  {"question": "когда новичок получает первую задачу", "source": "onboarding.md", "kind": "natural"},
+  {"question": "какие курсы обязательны в первые две недели", "source": "onboarding.md", "kind": "natural"},
+
+  {"question": "как заменить сломавшийся ноутбук", "source": "equipment.md", "kind": "natural"},
+  {"question": "дадут ли второй монитор", "source": "equipment.md", "kind": "natural"},
+  {"question": "сколько дают на обустройство домашнего рабочего места", "source": "equipment.md", "kind": "natural"},
+  {"question": "IT-HELP", "source": "equipment.md", "kind": "lexical"},
+  {"question": "60000 рублей", "source": "equipment.md", "kind": "lexical"},
+
+  {"question": "какие суточные в командировке", "source": "travel.md", "kind": "natural"},
+  {"question": "лимит на гостиницу в москве", "source": "travel.md", "kind": "natural"},
+  {"question": "возместят ли такси из аэропорта", "source": "travel.md", "kind": "natural"},
+  {"question": "8000 рублей за ночь", "source": "travel.md", "kind": "lexical"},
+
+  {"question": "сколько дней в неделю надо быть в офисе", "source": "remote.md", "kind": "natural"},
+  {"question": "можно ли работать из другой страны", "source": "remote.md", "kind": "natural"},
+  {"question": "во сколько обязательные часы пересечения", "source": "remote.md", "kind": "natural"},
+  {"question": "с 12:00 до 17:00", "source": "remote.md", "kind": "lexical"},
+
+  {"question": "какой минимальной длины должен быть пароль", "source": "security.md", "kind": "natural"},
+  {"question": "как передать коллеге токен", "source": "security.md", "kind": "natural"},
+  {"question": "что делать с фишинговым письмом", "source": "security.md", "kind": "natural"},
+  {"question": "14 символов", "source": "security.md", "kind": "lexical"},
+
+  {"question": "сколько денег на обучение в год", "source": "education.md", "kind": "natural"},
+  {"question": "оплатят ли конференцию если я выступаю с докладом", "source": "education.md", "kind": "natural"},
+  {"question": "100000 рублей в календарный год", "source": "education.md", "kind": "lexical"},
+
+  {"question": "как оформить больничный", "source": "sickleave.md", "kind": "natural"},
+  {"question": "что покрывает дмс", "source": "sickleave.md", "kind": "natural"},
+  {"question": "можно ли не выходить на работу без больничного", "source": "sickleave.md", "kind": "natural"},
+  {"question": "до 11:00", "source": "sickleave.md", "kind": "lexical"},
+
+  {"question": "как вернуть деньги за рабочую покупку", "source": "expenses.md", "kind": "natural"},
+  {"question": "возместят ли алкоголь на ужине с клиентом", "source": "expenses.md", "kind": "natural"},
+  {"question": "как оплатить подписку на сервис", "source": "expenses.md", "kind": "natural"},
+  {"question": "5000 рублей на человека", "source": "expenses.md", "kind": "lexical"}
+]

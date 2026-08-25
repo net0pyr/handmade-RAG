@@ -1,26 +1,17 @@
 #!/usr/bin/env python3
 """Оценка качества поиска на размеченном наборе вопросов.
 
-Считает метрики для трёх ретриверов (BM25, вектор, гибрид через RRF) и для
-«наивного» гибрида — такого, каким он получается без стемминга, с нулевыми
-score BM25 и с полными ранжированиями на входе RRF.
+Считает метрики для трёх ретриверов: только BM25, только вектор и гибрид через RRF.
 
     python eval.py
 """
-import re
 import sys
-
-from rank_bm25 import BM25Okapi
 
 from rag.corpus import load_documents, load_golden
 from rag.pipeline import MiniRAG
-from rag.search import rrf
 
 K_VALUES = (1, 3, 5)
 MRR_DEPTH = 10
-CONTEXT_K = 5
-
-_PLAIN_TOKEN_RE = re.compile(r"\w+", re.UNICODE)
 
 
 def reciprocal_rank(ranking, sources, expected, depth=MRR_DEPTH):
@@ -31,7 +22,7 @@ def reciprocal_rank(ranking, sources, expected, depth=MRR_DEPTH):
 
 
 def evaluate(name, rank_fn, golden, sources):
-    """hit@k, MRR и «мусор@5» — сколько фрагментов контекста не из того документа."""
+    """hit@k и MRR. Правильный документ ровно один, поэтому hit@k здесь — это recall@k."""
     row = {"название": name}
     rankings = [(g["source"], rank_fn(g["question"])) for g in golden]
     n = len(golden)
@@ -42,9 +33,6 @@ def evaluate(name, rank_fn, golden, sources):
     row[f"MRR@{MRR_DEPTH}"] = sum(
         reciprocal_rank(r, sources, exp) for exp, r in rankings
     ) / n
-    row[f"мусор@{CONTEXT_K}"] = sum(
-        sum(1 for i, _ in r[:CONTEXT_K] if sources[i] != exp) for exp, r in rankings
-    ) / n
     return row
 
 
@@ -53,11 +41,7 @@ def print_table(rows):
     width = max(len(r["название"]) for r in rows)
     print(f"{'ретривер':<{width}} " + " ".join(f"{h:>10}" for h in headers))
     for r in rows:
-        cells = [
-            f"{r[h]:>10.2f}" if h.startswith("мусор") else f"{r[h]:>10.1%}"
-            for h in headers
-        ]
-        print(f"{r['название']:<{width}} " + " ".join(cells))
+        print(f"{r['название']:<{width}} " + " ".join(f"{r[h]:>10.1%}" for h in headers))
 
 
 def main() -> None:
@@ -69,19 +53,10 @@ def main() -> None:
     print(f"документов: {len(documents)}, чанков: {len(rag.chunks)}, вопросов: {len(golden)}")
     print(f"кандидатов из каждого поиска перед слиянием: {rag.candidates}")
 
-    # «Наивный» BM25: без стемминга и без отсева нулевых score.
-    naive_bm25 = BM25Okapi([_PLAIN_TOKEN_RE.findall(c.text.lower()) for c in rag.chunks])
-
-    def naive_hybrid(q):
-        scores = naive_bm25.get_scores(_PLAIN_TOKEN_RE.findall(q.lower()))
-        lexical = sorted(enumerate(scores), key=lambda x: -x[1])
-        return rrf([rag.vector_ranking(q), lexical])
-
     retrievers = [
         ("только BM25", rag.bm25_ranking),
         ("только вектор", rag.vector_ranking),
         ("гибрид (RRF)", rag.hybrid_ranking),
-        ("наивный гибрид", naive_hybrid),
     ]
 
     print("\n--- весь набор ---")
@@ -94,9 +69,8 @@ def main() -> None:
             print_table([evaluate(n, f, subset, sources) for n, f in retrievers])
 
     print(
-        f"\nhit@k — доля вопросов, где нужный документ попал в top-k."
-        f"\nмусор@{CONTEXT_K} — сколько из {CONTEXT_K} фрагментов контекста в среднем"
-        f" пришли не из того документа."
+        "\nhit@k — доля вопросов, где нужный документ попал в top-k."
+        f"\nMRR@{MRR_DEPTH} — усреднённая 1/позиция первого правильного фрагмента."
     )
 
     scored = [

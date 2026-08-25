@@ -8,10 +8,8 @@ Ranking = list[tuple[int, float]]
 class MiniRAG:
     """Гибридный ретривер: вектор + BM25, объединённые через RRF.
 
-    candidates — сколько кандидатов берётся из каждого поиска перед слиянием.
-    Полные ранжирования всей базы в RRF подавать не стоит: вклад 1/(k+rank)
-    убывает медленно, и хвост нерелевантных документов начинает конкурировать
-    с верхушкой списка.
+    candidates — сколько кандидатов берётся из каждого поиска перед слиянием;
+    почему не вся база, написано в rrf().
     """
 
     def __init__(self, documents: dict[str, str], candidates: int = 20):
@@ -39,7 +37,3 @@ class MiniRAG:
 
     def retrieve(self, query: str, k: int = 5) -> list[Chunk]:
         return [self.chunks[i] for i, _ in self.hybrid_ranking(query)[:k]]
-
-    def ask(self, question: str, k: int = 5) -> str:
-        from .generate import generate
-        return generate(question, self.retrieve(question, k=k))
